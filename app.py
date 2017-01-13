@@ -14,6 +14,7 @@ def index():
         if (tmp2[i] == ':') and (tmp2[i+1] == ' '):
             tmp3 += tmp2[i+2:-1]
     session['lastmsg'] = tmp3
+    # print('<',tmp3,'>')
 
     return render_template("index.html",
                            chat=tmp)
@@ -38,6 +39,8 @@ def uptdChat():
     print('update!')
     tmp2 = session['lastmsg']
     string, tmp = BackEnd.get_chatlog_lastfrom(tmp2)
+    if string == 0:
+        return jsonify(nsfw='KOK')
     tmp2 = ''
     for i in range(0, len(tmp)-2):
         if (tmp[i] == ':') and (tmp[i+1] == ' '):
@@ -57,6 +60,15 @@ def tryLogin():
     return jsonify(nsfw=tmp)
 
 
+@app.route("/_logout")
+def logout():
+    print('logout')
+    if 'username' in session:
+        print('+')
+        session.pop('username', None)
+        return jsonify()
+
+
 # Регистрация на сервере
 @app.route('/_register')
 def register():
@@ -69,18 +81,15 @@ def register():
 
 
 # Запрос на проверку залогинен ли пользователь
-@app.route("/_logged")
-def logged():
+@app.route("/_isLogged")
+def isLogged():
+    print('Login check')
     if 'username' in session:
+        print('L1+')
         return jsonify(nsfw=1)
     else:
+        print('L2-')
         return jsonify(nsfw=0)
-
-
-# Выход с сервера
-@app.route('/_logout')
-def logout():
-    session.pop('username', None)
 
 
 # set the secret key.  keep this really secret:

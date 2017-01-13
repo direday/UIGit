@@ -1,7 +1,20 @@
-//Call login modal on page's load
+//Call login modal on page's load if no session is active
 $(window).ready(function()
 {
-    $('#loginModal').modal({backdrop: 'static', keyboard: false});
+	$.getJSON('/_isLogged', {}, function(data)
+	    {
+	    	if (data.nsfw == 0) 
+	    	{
+	    		$('#loginModal').modal({backdrop: 'static', keyboard: false});	    
+	    		setTimeout(function(){
+					$('#login').focus();
+					$("#login:text:visible:first").focus();
+				}, 650);		
+	    	} else 
+	    	{
+	    		setInterval(updtChat, 1000);
+	    	}
+	    });
 });
 
 //Submit on Enter everywhere
@@ -13,7 +26,7 @@ $(document).ready(function()
 		if(event.keyCode == 13) 
 		{
 		  event.preventDefault();
-		  sendChat();
+		  $('#sendMsg').click();
 		}
 	});
 	//for login
@@ -79,6 +92,7 @@ $(document).ready(function()
 		    	if (data.nsfw == "SUCC")
 		    	{
 		    		$('#loginModal').modal('toggle');
+		    		setInterval(updtChat, 1000);
 		    	}else if (data.nsfw == "LOG")
 		    	{
 		    		$('#login').val('');
@@ -95,6 +109,10 @@ $(document).ready(function()
 	{
 		$('#loginModal').modal('toggle');
 		$('#regModal').modal({backdrop: 'static', keyboard: false});
+		setTimeout(function(){
+			$('#regLog').focus();
+			$("#regLog:text:visible:first").focus();
+		}, 650);
 	});
 });
 
@@ -115,7 +133,7 @@ $(document).ready(function(){
 			    	if (data.nsfw == "SUCC")
 			    	{
 			    		$('#regModal').modal('toggle');
-//			    		setInterval(updtChat(), 1000);
+			    		setInterval(updtChat, 1000);
 			    	}else if (data.nsfw == "LOG")
 			    	{
 			     		$('#regLog').val('');
@@ -153,22 +171,40 @@ function sendChat()
 	}
 }
 
+//fetches new msgs from server
 function updtChat()
 {
 	$.getJSON('/_updtChat', 
 	{}, function(data) 
     {
-    	if (data.nsfw == "SUCC")
-    	{
-    		//TODO
-    	}else
+    	if (data.nsfw != "KOK")
     	{
      		$('#chat-area').val($('#chat-area').val() + data.nsfw);
+     		var chatArea = document.getElementById('chat-area');
+			chatArea.scrollTop = chatArea.scrollHeight;
     	}
 	});	
 }
 
+//Open chat. Duh.
 function openChat() 
 {
 	$('#chatModal').modal({backdrop: 'static'});
+	setTimeout(function(){
+		var chatArea = document.getElementById('chat-area');
+		chatArea.scrollTop = chatArea.scrollHeight;
+	}, 200);
+	setTimeout(function(){
+		$('#msg').focus();
+		$("#msg:text:visible:first").focus();
+	}, 450);			
+}
+
+//logout and refreshing page. Ubelievable
+function logout()
+{
+	$.getJSON('/_logout', 
+		{}, function(data){});
+	$('#logoutBtn').prop('disabled', true);
+	window.location.reload();
 }

@@ -2,9 +2,9 @@ import sqlite3
 
 # path = 'D:/Dropbox/Programming/Python/UIGit/static/db/Data.db'
 
-path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
+# path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
 
-# path = 'E:/Study/Server/static/db/Data.db'
+# path = 'E:/Study/UIGit/static/db/Data.db'
 
 # Регистрация пользователя
 def add_user(userlogin, userpassword):
@@ -109,9 +109,12 @@ def get_chatlog_lastfrom(msg):
         row = c.fetchone()
 
     strings.reverse()
-    lastmsg = strings[len(strings)-1]
-    str = ''
-    for i in range(0, len(strings)):
-        str += strings[i]
-    # print(str)
-    return str, lastmsg
+    if len(strings) != 0:
+        lastmsg = strings[len(strings) - 1]
+        str = ''
+        for i in range(0, len(strings)):
+            str += strings[i]
+        print('send:<', msg, '>')
+        return str, lastmsg
+    else:
+        return 0, 0
