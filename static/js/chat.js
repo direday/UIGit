@@ -9,7 +9,7 @@ $(window).ready(function()
 	    		setTimeout(function(){
 					$('#login').focus();
 					$("#login:text:visible:first").focus();
-				}, 650);		
+				}, 750);		
 	    	} else 
 	    	{
 	    		setInterval(updtChat, 1000);
@@ -112,7 +112,7 @@ $(document).ready(function()
 		setTimeout(function(){
 			$('#regLog').focus();
 			$("#regLog:text:visible:first").focus();
-		}, 650);
+		}, 750);
 	});
 });
 
@@ -189,6 +189,7 @@ function updtChat()
 //Open chat. Duh.
 function openChat() 
 {
+	$(':focus').blur();
 	$('#chatModal').modal({backdrop: 'static'});
 	setTimeout(function(){
 		var chatArea = document.getElementById('chat-area');
@@ -197,7 +198,7 @@ function openChat()
 	setTimeout(function(){
 		$('#msg').focus();
 		$("#msg:text:visible:first").focus();
-	}, 450);			
+	}, 550);
 }
 
 //logout and refreshing page. Ubelievable
