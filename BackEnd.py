@@ -2,9 +2,9 @@ import sqlite3
 
 # path = 'D:/Dropbox/Programming/Python/UIGit/static/db/Data.db'
 
-# path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
+path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
 
-path = 'E:/Study/Server/static/db/Data.db'
+# path = 'E:/Study/Server/static/db/Data.db'
 
 # Регистрация пользователя
 def add_user(userlogin, userpassword):
