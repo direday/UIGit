@@ -1,4 +1,4 @@
-import BackBackEnd
+import BackEnd
 from flask import Flask, session, request, render_template, jsonify
 
 app = Flask(__name__)
@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/index")
 def index():
-    tmp = BackBackEnd.get_chatlog()
+    tmp = BackEnd.get_chatlog()
     tmp2 = tmp[len(tmp)-1]
     tmp3 = ''
     for i in range(0, len(tmp2)-2):
@@ -26,7 +26,7 @@ def sendMessage():
     if 'username' not in session:
         return jsonify()
     username = session['username']
-    BackBackEnd.send_message(username, msg)
+    BackEnd.send_message(username, msg)
 
     return jsonify()
 
@@ -37,7 +37,7 @@ def sendMessage():
 def uptdChat():
     print('update!')
     tmp2 = session['lastmsg']
-    string, tmp = BackBackEnd.get_chatlog_lastfrom(tmp2)
+    string, tmp = BackEnd.get_chatlog_lastfrom(tmp2)
     tmp2 = ''
     for i in range(0, len(tmp)-2):
         if (tmp[i] == ':') and (tmp[i+1] == ' '):
@@ -51,7 +51,7 @@ def uptdChat():
 def tryLogin():
     login = request.args.get('login', 0, type=str)
     password = request.args.get('password', 0, type=str)
-    tmp = BackBackEnd.sign_in(login, password)
+    tmp = BackEnd.sign_in(login, password)
     if tmp == 'SUCC':
         session['username'] = login
     return jsonify(nsfw=tmp)
@@ -62,7 +62,7 @@ def tryLogin():
 def register():
     login = request.args.get('login', 0, type=str)
     password = request.args.get('password', 0, type=str)
-    tmp = BackBackEnd.add_user(login, password)
+    tmp = BackEnd.add_user(login, password)
     if tmp == 'SUCC':
         session['username'] = login
     return jsonify(nsfw=tmp)
