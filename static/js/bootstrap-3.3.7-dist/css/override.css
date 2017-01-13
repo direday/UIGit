@@ -1,0 +1,173 @@
+body {
+	background-color: rgb(25,25,25);
+}
+
+textarea {
+    resize: none;
+    background-color: rgb(52,52,52);
+}
+
+ a, a:visited {
+    font-size: 14px;
+	color: rgb(100, 100, 100);
+	text-decoration: none;
+}
+
+a:hover, a:active {
+    color: rgb(125, 125, 125);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+img {
+	user-drag: none; 
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+.btn {
+	border-radius: 3px;
+	color: rgba(255,255,255,0.9);
+	border-width: 0px;
+}
+
+.btn:hover {
+	color: rgba(255,255,255,0.7);
+}
+
+
+.modal-body {
+	background-color: rgb(35,35,35);
+}
+
+.modal-header {
+	background-color: rgb(35,35,35);
+	color: rgb(225,225,225);
+	text-shadow: 0 0 3px rgba(255, 195, 0, 0.7);
+	border-color: rgb(52, 52, 52);
+}
+
+.modal-backdrop {
+	background-image: url(../../../img/ptrn.png);
+	background-color: transparent;
+}
+
+.modal-content {
+	background-color: rgb(252, 252, 252);
+	color: rgb(225,225,225);
+	border-radius: 5px;
+	box-shadow: 0px 0px 25px rgba(0, 0, 0, .7);
+	border: 1px solid rgba(82, 82, 82, .4);
+}
+
+.form-control[readonly] {
+	background-color: rgb(52, 52, 52);
+	border-radius: 3px 3px 0px 0px;
+	color: rgb(225,225,225);
+}
+
+.close {
+	color: rgb(255,255,255);
+}
+
+.imgBtn {
+	color: rgb(225,225,225);
+	border-radius: 0px 0px 3px 0px;
+	border-color: #ccc;
+	border-width: 0px 1px 1px 0px;
+	padding-top: 7px;
+	background-color: rgb(100, 100, 100);
+	padding: 5px 12px 8px 12px;
+}
+
+.form-control {
+	background-color: rgb(52, 52, 52);
+	color: rgb(225,225,225);
+}
+
+.input-group-addon {
+	color: rgb(225,225,225);
+	border-color: #ccc;
+	border-width: 1px 1px 1px 0px;
+	background-color: rgb(100, 100, 100);
+	padding: 5px 12px 8px 12px;
+}
+
+.bodyDiv {
+	text-align: center;
+	margin: 0;
+	width: 100%;
+	line-height: 1;
+}
+
+.bodyBtn {
+  webkit-border-radius: 0 0 3 3;
+  -moz-border-radius: 0 0 3 3;
+  border-radius: 0px 0px 3px 3px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #3d7da8;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  border-width: 0px;
+  margin: 0px;
+  border-width: 0px 1px;
+  border-color: rgb(138, 191, 209);
+  border-collapse: collapse;
+}
+
+.bodyBtn:hover {
+  background: #276c8f;
+  text-decoration: none;
+  text-shadow: 0 0 15px rgb(117, 220, 255);
+}
+
+#sendMsg {
+	color: rgb(225,225,225);
+	border-radius: 0px 0px 3px 0px;
+	border-color: #ccc;
+	border-width: 0px 1px 1px 0px;
+	background-color: rgb(100, 100, 100);
+	padding: 6px 12px 7px 12px;
+}
+
+#msg {
+	border-radius: 0px 0px 0px 3px;
+	border-top: 0px;
+	font-family: monospace;
+}
+
+#chatTitle {
+	padding-bottom: 5px;
+	border-bottom-width: 0px;
+}
+
+#chatBody {
+	padding-top: 5px;
+}
+
+#chat-area {
+	font-family: monospace;
+}
+
+#pswrdGroup, #regPswrd {
+	margin-top: 15px;
+}
+
+#reg {
+	padding: 5px 10px 0px 10px;
+	text-align: center;
+	text-decoration: none;
+}
+
+#loginBody {
+	padding-bottom: 5px;
+}
+
+#pswrdBtn, #regBtn {
+	cursor: pointer;
+}
