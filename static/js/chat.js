@@ -12,7 +12,7 @@ $(window).ready(function()
 				}, 750);		
 	    	} else 
 	    	{
-	    		setInterval(updtChat, 1000);
+	    		updtChat();
 	    	}
 	    });
 });
@@ -92,7 +92,7 @@ $(document).ready(function()
 		    	if (data.nsfw == "SUCC")
 		    	{
 		    		$('#loginModal').modal('toggle');
-		    		setInterval(updtChat, 1000);
+		    		updtChat();
 		    	}else if (data.nsfw == "LOG")
 		    	{
 		    		$('#login').val('');
@@ -133,7 +133,7 @@ $(document).ready(function(){
 			    	if (data.nsfw == "SUCC")
 			    	{
 			    		$('#regModal').modal('toggle');
-			    		setInterval(updtChat, 1000);
+			    		updtChat();
 			    	}else if (data.nsfw == "LOG")
 			    	{
 			     		$('#regLog').val('');
@@ -171,17 +171,32 @@ function sendChat()
 	}
 }
 
-//fetches new msgs from server
+//fetches new msgs from server, then requests it again
 function updtChat()
 {
 	$.getJSON('/_updtChat', 
-	{}, function(data) 
+	{
+		async:true,
+	}, function(data) 
     {
     	if (data.nsfw != "KOK")
     	{
-     		$('#chat-area').val($('#chat-area').val() + data.nsfw);
-     		var chatArea = document.getElementById('chat-area');
-			chatArea.scrollTop = chatArea.scrollHeight;
+    		var chatArea = document.getElementById('chat-area');
+    		console.log($('#chat-area').height());
+     		if (chatArea.scrollHeight <= (chatArea.scrollTop + $('#chat-area').height()) + 14)
+     		{     
+     		    $('#chat-area').val($('#chat-area').val() + data.nsfw);     						     		
+				chatArea.scrollTop = chatArea.scrollHeight;
+     		} else
+     		{
+     			$('#chat-area').val($('#chat-area').val() + data.nsfw); 
+     		}
+     		updtChat();
+     		return false;
+    	} else 
+    	{
+    		updtChat();
+    		return false;
     	}
 	});	
 }

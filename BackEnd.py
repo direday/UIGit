@@ -4,7 +4,7 @@ import sqlite3
 
 # path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
 
-path = 'E:/Study/UIGit/static/db/Data.db'
+# path = 'E:/Study/UIGit/static/db/Data.db'
 
 # Регистрация пользователя
 def add_user(userlogin, userpassword):
