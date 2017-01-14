@@ -202,7 +202,7 @@ function updtChat()
 }
 
 //Open chat. Duh.
-function openChat();
+function openChat()
 
 {
 	$(':focus').blur();
