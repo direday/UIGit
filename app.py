@@ -71,6 +71,7 @@ def tryLogin():
 def logout():
     print('logout')
     if 'username' in session:
+
         session.pop('username', None)
         return jsonify()
 
