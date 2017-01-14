@@ -15,10 +15,7 @@
 <body>
 <!-- Body -->
 <div class="bodyDiv">
-  <button class="bodyBtn" id="openChat" onclick="openChat()">Chit-chat</button>
-  <button class="bodyBtn" onclick="openChat()">Chit-chat</button>
-  <button class="bodyBtn" onclick="openChat()">Chit-chat</button>
-  <button class="bodyBtn" onclick="logout()">Log-Out</button>
+  <button class="bodyBtn" id="openChat" onclick="openChat()">Chit-chat</button><button class="bodyBtn" onclick="openChat()">Chit-chat</button><button class="bodyBtn" onclick="openChat()">Chit-chat</button><button id="logoutBtn" class="bodyBtn" onclick="logout()">Log-Out</button>
 </div>
 <!-- END OF BODY -->
 
@@ -31,7 +28,7 @@
       </div>
       <div class="modal-body" id="loginBody">
       	<form>
-	  	    <input type="text" class="form-control log" id="login" placeholder="Username">
+	  	  <input type="text" class="form-control log" id="login" placeholder="Username">
 	  	  <div class="input-group" id="pswrdGroup">
 		    <input type="text" class="form-control log" id="pswrd" placeholder="Password">
 		    <span class="input-group-addon" id="pswrdBtn"><img src="../static/img/enter.png" height="16" width="16"/></span>
@@ -54,8 +51,8 @@
       </div>
       <div class="modal-body" id="regBody">
       	<form>
-	  	    <input type="text" class="form-control log" id="regLog" placeholder="Username">
-	  	    <input type="text" class="form-control log" id="regPswrd" placeholder="Password">
+	  	  <input type="text" class="form-control log" id="regLog" placeholder="Username">
+	  	  <input type="text" class="form-control log" id="regPswrd" placeholder="Password">
 	  	  <div class="input-group" id="pswrdGroup">
 		    <input type="text" class="form-control log" id="regConf" placeholder="Confirm password">
 		    <span class="input-group-addon" id="regBtn"><img src="../static/img/enter.png" height="16" width="16"/></span>
@@ -80,12 +77,12 @@
       	<div class="input-bar">
         <div class="input-bar-item width100">
           <form>
-             <div class="input-group">
-                <input class="form-control width100" id="msg" autocomplete="off" placeholder="Enter your message here" autofocus>
-                <span class="input-group-btn">
-                  <button type="button" class="btn" id="sendMsg" onclick="sendChat()"><img src="../static/img/submit.png" height="16" width="16"/>
-                  </button>
-                </span>
+            <div class="input-group">
+              <input class="form-control width100" id="msg" autocomplete="off" placeholder="Enter your message here" autofocus>
+              <span class="input-group-btn">
+                <button type="button" class="btn" id="sendMsg" onclick="sendChat()"><img src="../static/img/submit.png" height="16" width="16"/>
+                </button>
+              </span>
             </div>
           </form>
         </div>

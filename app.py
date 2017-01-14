@@ -7,8 +7,15 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/index")
 def index():
+    print('STARTED')
+    if 'username' in session:
+        print('user =', session['username'])
+    else:
+        print('Unlogged user.')
+
     tmp1, tmp2 = BackEnd.get_chatlog()
     session['lastmsg'] = tmp2
+
     return render_template("index.html",
                            chat=tmp1)
 
@@ -29,19 +36,29 @@ def sendMessage():
 #  отправляет строку содержащую все сообщение отправленные после данного)
 @app.route("/_updtChat")
 def uptdChat():
-    print('update!')
+    print('update! for user =', session['username'])
     lastmsg = session['lastmsg']
-    string, lastmsg = BackEnd.get_chatlog_lastfrom(lastmsg)
-    if string == 0:
-        return jsonify(nsfw='KOK')
-    session['lastmsg'] = lastmsg
+    string = 0
+    i = 0
+    while string == 0:
+        # print(i)
+        string, lastmsg = BackEnd.get_chatlog_lastfrom(lastmsg)
+        i += 1
+        if i > 30000:
+            print('KOOOOOK, ALLO!')
+            return jsonify(nsfw='KOK')
 
+
+    session['lastmsg'] = lastmsg
+    print('end of update for user =',session['username'])
     return jsonify(nsfw=string)
+
 
 
 # Вход на сервер
 @app.route("/_tryLogin")
 def tryLogin():
+    print('tryLogin')
     login = request.args.get('login', 0, type=str)
     password = request.args.get('password', 0, type=str)
     tmp = BackEnd.sign_in(login, password)
@@ -54,7 +71,6 @@ def tryLogin():
 def logout():
     print('logout')
     if 'username' in session:
-        print('+')
         session.pop('username', None)
         return jsonify()
 
@@ -62,6 +78,7 @@ def logout():
 # Регистрация на сервере
 @app.route('/_register')
 def register():
+    print('registration')
     login = request.args.get('login', 0, type=str)
     password = request.args.get('password', 0, type=str)
     tmp = BackEnd.add_user(login, password)
@@ -86,4 +103,4 @@ def isLogged():
 app.secret_key = 'Secret Key! SO SECRET!'
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=True, threaded=True)

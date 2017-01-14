@@ -1,10 +1,7 @@
 import sqlite3
 
 # path = 'D:/Dropbox/Programming/Python/UIGit/static/db/Data.db'
-
 # path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
-
-
 # path = 'E:/Study/Server/static/db/Data.db'
 
 # Регистрация пользователя
@@ -101,6 +98,8 @@ def get_chatlog_lastfrom(msg):
     c.execute("select * from chat order by id desc")
     row = c.fetchone()
     lastmsg = int(row[0])
+    # if lastmsg == msg:
+    #     return 0, msg
     for i in range(0, n):
         if row == None:
             break
@@ -113,4 +112,4 @@ def get_chatlog_lastfrom(msg):
     if len(strings) != 0:
         return strings, lastmsg
     else:
-        return 0, 0
+        return 0, msg
