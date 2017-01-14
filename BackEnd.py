@@ -1,9 +1,7 @@
 import sqlite3
 
 # path = 'D:/Dropbox/Programming/Python/UIGit/static/db/Data.db'
-
 # path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
-
 # path = 'E:/Study/UIGit/static/db/Data.db'
 
 # Регистрация пользователя
@@ -66,8 +64,9 @@ def get_chatlog():
     for i in c:
         # print(i[1] + ': ' + i[2])
         strings.append(i[1] + ': ' + i[2] + '\n')
+        lastmsg = int(i[0])
 
-    return strings
+    return strings, lastmsg
 
 
 # Запрос последних n сообщений чата
@@ -92,29 +91,25 @@ def get_chatlog_lastN():
 # Запрос сообщений чата после данного
 def get_chatlog_lastfrom(msg):
     n = 10
-    print('send:<', msg, '>')
 
     db = sqlite3.connect(path)
     c = db.cursor()
     strings = []
     c.execute("select * from chat order by id desc")
     row = c.fetchone()
+    lastmsg = int(row[0])
+    # if lastmsg == msg:
+    #     return 0, msg
     for i in range(0, n):
-        # print('row2:<', row[2], '>')
         if row == None:
             break
-        if row[2] == msg:
+        if int(row[0]) == msg:
             break
         strings.append(row[1] + ': ' + row[2] + '\n')
         row = c.fetchone()
 
     strings.reverse()
     if len(strings) != 0:
-        lastmsg = strings[len(strings) - 1]
-        str = ''
-        for i in range(0, len(strings)):
-            str += strings[i]
-        print('send:<', msg, '>')
-        return str, lastmsg
+        return strings, lastmsg
     else:
-        return 0, 0
+        return 0, msg

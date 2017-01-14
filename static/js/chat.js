@@ -18,12 +18,12 @@ $(window).ready(function()
 });
 
 //Submit on Enter everywhere
-$(document).ready(function() 
+$(document).ready(function()
 {
 	//for chat
 	$("#msg").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#sendMsg').click();
@@ -32,7 +32,7 @@ $(document).ready(function()
 	//for login
 	$("#login").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#pswrdBtn').click();
@@ -41,7 +41,7 @@ $(document).ready(function()
 
 	$("#pswrd").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#pswrdBtn').click();
@@ -50,7 +50,7 @@ $(document).ready(function()
 	//for registration
 	$("#regLog").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -59,7 +59,7 @@ $(document).ready(function()
 
 	$("#regPswrd").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -68,7 +68,7 @@ $(document).ready(function()
 
 	$("#regConf").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -83,11 +83,11 @@ $(document).ready(function()
 	{
 		if (($('#login').val() != "") && ($('#pswrd').val() != ""))
 		{
-			$.getJSON('/_tryLogin', 
+			$.getJSON('/_tryLogin',
 			{
 		        login: $('#login').val(),
 		        password: $('#pswrd').val()
-		    }, function(data) 
+		    }, function(data)
 		    {
 		    	if (data.nsfw == "SUCC")
 		    	{
@@ -102,7 +102,7 @@ $(document).ready(function()
 		    		$('#pswrd').val('');
 		    		$("#pswrd").attr("placeholder", "incorrect password");
 		    	}
-		    });	
+		    });
 		}
 	});
 	$('#register').click(function()
@@ -124,11 +124,11 @@ $(document).ready(function(){
 		{
 			if ($('#regPswrd').val() == $('#regConf').val())
 			{
-				$.getJSON('/_register', 
+				$.getJSON('/_register',
 				{
 			        login: $('#regLog').val(),
 			        password: $('#regPswrd').val()
-			    }, function(data) 
+			    }, function(data)
 			    {
 			    	if (data.nsfw == "SUCC")
 			    	{
@@ -139,8 +139,8 @@ $(document).ready(function(){
 			     		$('#regLog').val('');
 			    		$("#regLog").attr("placeholder", "incorrect login");
 			    	}
-		    	});	
-			} else 
+		    	});
+			} else
 			{
 				$('#regPswrd').val('');
 				$('#regConf').val('');
@@ -157,7 +157,7 @@ $(document).ready(function(){
 });
 
 //sends chatbox's msg
-function sendChat() 
+function sendChat()
 {
 	var msg = $('#msg').val();
 	if (msg != '')
@@ -198,11 +198,12 @@ function updtChat()
     		updtChat();
     		return false;
     	}
-	});	
+	});
 }
 
 //Open chat. Duh.
-function openChat() 
+function openChat();
+
 {
 	$(':focus').blur();
 	$('#chatModal').modal({backdrop: 'static'});
