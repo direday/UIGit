@@ -1,25 +1,34 @@
-//Call login modal on page's load
+//Call login modal on page's load if no session is active
 $(window).ready(function()
 {
-    $('#loginModal').modal({backdrop: 'static', keyboard: false});
+	$.getJSON('/_isLogged', {}, function(data)
+	    {
+	    	if (data.nsfw == 0)
+	    	{
+	    		$('#loginModal').modal({backdrop: 'static', keyboard: false});
+	    	} else
+	    	{
+	    		setInterval(updtChat, 1000);
+	    	}
+	    });
 });
 
 //Submit on Enter everywhere
-$(document).ready(function() 
+$(document).ready(function()
 {
 	//for chat
 	$("#msg").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
-		  sendChat();
+		  $('#sendMsg').click();
 		}
 	});
 	//for login
 	$("#login").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#pswrdBtn').click();
@@ -28,7 +37,7 @@ $(document).ready(function()
 
 	$("#pswrd").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#pswrdBtn').click();
@@ -37,7 +46,7 @@ $(document).ready(function()
 	//for registration
 	$("#regLog").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -46,7 +55,7 @@ $(document).ready(function()
 
 	$("#regPswrd").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -55,7 +64,7 @@ $(document).ready(function()
 
 	$("#regConf").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -70,15 +79,16 @@ $(document).ready(function()
 	{
 		if (($('#login').val() != "") && ($('#pswrd').val() != ""))
 		{
-			$.getJSON('/_tryLogin', 
+			$.getJSON('/_tryLogin',
 			{
 		        login: $('#login').val(),
 		        password: $('#pswrd').val()
-		    }, function(data) 
+		    }, function(data)
 		    {
 		    	if (data.nsfw == "SUCC")
 		    	{
 		    		$('#loginModal').modal('toggle');
+		    		setInterval(updtChat, 1000);
 		    	}else if (data.nsfw == "LOG")
 		    	{
 		    		$('#login').val('');
@@ -88,7 +98,7 @@ $(document).ready(function()
 		    		$('#pswrd').val('');
 		    		$("#pswrd").attr("placeholder", "incorrect password");
 		    	}
-		    });	
+		    });
 		}
 	});
 	$('#register').click(function()
@@ -106,23 +116,23 @@ $(document).ready(function(){
 		{
 			if ($('#regPswrd').val() == $('#regConf').val())
 			{
-				$.getJSON('/_register', 
+				$.getJSON('/_register',
 				{
 			        login: $('#regLog').val(),
 			        password: $('#regPswrd').val()
-			    }, function(data) 
+			    }, function(data)
 			    {
 			    	if (data.nsfw == "SUCC")
 			    	{
 			    		$('#regModal').modal('toggle');
-//			    		setInterval(updtChat(), 1000);
+			    		setInterval(updtChat, 1000);
 			    	}else if (data.nsfw == "LOG")
 			    	{
 			     		$('#regLog').val('');
 			    		$("#regLog").attr("placeholder", "incorrect login");
 			    	}
-		    	});	
-			} else 
+		    	});
+			} else
 			{
 				$('#regPswrd').val('');
 				$('#regConf').val('');
@@ -139,7 +149,7 @@ $(document).ready(function(){
 });
 
 //sends chatbox's msg
-function sendChat() 
+function sendChat()
 {
 	var msg = $('#msg').val();
 	if (msg != '')
@@ -153,22 +163,35 @@ function sendChat()
 	}
 }
 
+//fetches new msgs from server
 function updtChat()
 {
-	$.getJSON('/_updtChat', 
-	{}, function(data) 
+	$.getJSON('/_updtChat',
+	{}, function(data)
     {
-    	if (data.nsfw == "SUCC")
-    	{
-    		//TODO
-    	}else
+    	if (data.nsfw != "KOK")
     	{
      		$('#chat-area').val($('#chat-area').val() + data.nsfw);
+     		var chatArea = document.getElementById('chat-area');
+			chatArea.scrollTop = chatArea.scrollHeight;
     	}
-	});	
+	});
 }
 
-function openChat() 
+//Open chat. Duh.
+function openChat()
 {
 	$('#chatModal').modal({backdrop: 'static'});
+	setTimeout(function(){
+		var chatArea = document.getElementById('chat-area');
+		chatArea.scrollTop = chatArea.scrollHeight;
+	}, 200);
+}
+
+function logout()
+{
+	$.getJSON('/_logout',
+		{}, function(data){});
+	$('#logoutBtn').prop('disabled', true);
+	window.location.reload();
 }
