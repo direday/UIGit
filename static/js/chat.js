@@ -1,25 +1,39 @@
-//Call login modal on page's load
+//Call login modal on page's load if no session is active
 $(window).ready(function()
 {
-    $('#loginModal').modal({backdrop: 'static', keyboard: false});
+	$.getJSON('/_isLogged', {}, function(data)
+	    {
+	    	if (data.nsfw == 0)
+	    	{
+	    		$('#loginModal').modal({backdrop: 'static', keyboard: false});
+	    		setTimeout(function(){
+					$('#login').focus();
+					$("#login:text:visible:first").focus();
+				}, 750);
+	    	} else
+	    	{
+	    		updtChat();
+//	    		setInterval(updtChat, 1000);
+	    	}
+	    });
 });
 
 //Submit on Enter everywhere
-$(document).ready(function() 
+$(document).ready(function()
 {
 	//for chat
 	$("#msg").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
-		  sendChat();
+		  $('#sendMsg').click();
 		}
 	});
 	//for login
 	$("#login").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#pswrdBtn').click();
@@ -28,7 +42,7 @@ $(document).ready(function()
 
 	$("#pswrd").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#pswrdBtn').click();
@@ -37,7 +51,7 @@ $(document).ready(function()
 	//for registration
 	$("#regLog").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -46,7 +60,7 @@ $(document).ready(function()
 
 	$("#regPswrd").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -55,7 +69,7 @@ $(document).ready(function()
 
 	$("#regConf").keydown(function(event)
 	{
-		if(event.keyCode == 13) 
+		if(event.keyCode == 13)
 		{
 		  event.preventDefault();
 		  $('#regBtn').click();
@@ -70,15 +84,17 @@ $(document).ready(function()
 	{
 		if (($('#login').val() != "") && ($('#pswrd').val() != ""))
 		{
-			$.getJSON('/_tryLogin', 
+			$.getJSON('/_tryLogin',
 			{
 		        login: $('#login').val(),
 		        password: $('#pswrd').val()
-		    }, function(data) 
+		    }, function(data)
 		    {
 		    	if (data.nsfw == "SUCC")
 		    	{
 		    		$('#loginModal').modal('toggle');
+		    		updtChat();
+//		    		setInterval(updtChat, 1000);
 		    	}else if (data.nsfw == "LOG")
 		    	{
 		    		$('#login').val('');
@@ -88,13 +104,17 @@ $(document).ready(function()
 		    		$('#pswrd').val('');
 		    		$("#pswrd").attr("placeholder", "incorrect password");
 		    	}
-		    });	
+		    });
 		}
 	});
 	$('#register').click(function()
 	{
 		$('#loginModal').modal('toggle');
 		$('#regModal').modal({backdrop: 'static', keyboard: false});
+		setTimeout(function(){
+			$('#regLog').focus();
+			$("#regLog:text:visible:first").focus();
+		}, 750);
 	});
 });
 
@@ -106,23 +126,24 @@ $(document).ready(function(){
 		{
 			if ($('#regPswrd').val() == $('#regConf').val())
 			{
-				$.getJSON('/_register', 
+				$.getJSON('/_register',
 				{
 			        login: $('#regLog').val(),
 			        password: $('#regPswrd').val()
-			    }, function(data) 
+			    }, function(data)
 			    {
 			    	if (data.nsfw == "SUCC")
 			    	{
 			    		$('#regModal').modal('toggle');
-//			    		setInterval(updtChat(), 1000);
+			    		updtChat();
+//			    		setInterval(updtChat, 1000);
 			    	}else if (data.nsfw == "LOG")
 			    	{
 			     		$('#regLog').val('');
 			    		$("#regLog").attr("placeholder", "incorrect login");
 			    	}
-		    	});	
-			} else 
+		    	});
+			} else
 			{
 				$('#regPswrd').val('');
 				$('#regConf').val('');
@@ -139,7 +160,7 @@ $(document).ready(function(){
 });
 
 //sends chatbox's msg
-function sendChat() 
+function sendChat()
 {
 	var msg = $('#msg').val();
 	if (msg != '')
@@ -153,22 +174,56 @@ function sendChat()
 	}
 }
 
+//fetches new msgs from server
 function updtChat()
 {
-	$.getJSON('/_updtChat', 
-	{}, function(data) 
+	$.getJSON('/_updtChat',
+	{
+		async:true,
+	}, function(data)
     {
-    	if (data.nsfw == "SUCC")
+    	if (data.nsfw != "KOK")
     	{
-    		//TODO
-    	}else
+    		var chatArea = document.getElementById('chat-area');
+    		console.log($('#chat-area').height());
+     		if (chatArea.scrollHeight <= (chatArea.scrollTop + $('#chat-area').height()) + 14)
+     		{
+     		    $('#chat-area').val($('#chat-area').val() + data.nsfw);
+				chatArea.scrollTop = chatArea.scrollHeight;
+     		} else
+     		{
+     			$('#chat-area').val($('#chat-area').val() + data.nsfw);
+     		}
+     		updtChat();
+     		return false;
+    	} else
     	{
-     		$('#chat-area').val($('#chat-area').val() + data.nsfw);
+    		updtChat();
+    		return false;
     	}
-	});	
+	});
 }
 
-function openChat() 
+//Open chat. Duh.
+function openChat()
 {
+	$(':focus').blur();
 	$('#chatModal').modal({backdrop: 'static'});
+	setTimeout(function(){
+		var chatArea = document.getElementById('chat-area');
+		chatArea.scrollTop = chatArea.scrollHeight;
+	}, 200);
+	setTimeout(function(){
+		$('#msg').focus();
+		$("#msg:text:visible:first").focus();
+	}, 550);
+}
+
+//logout and refreshing page. Ubelievable
+function logout()
+{
+	$.getJSON('/_logout',
+		{}, function(data){});
+	$('#logoutBtn').prop('disabled', true);
+	window.location.reload();
 }
