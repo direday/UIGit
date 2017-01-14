@@ -3,17 +3,16 @@ $(window).ready(function()
 {
 	$.getJSON('/_isLogged', {}, function(data)
 	    {
-	    	if (data.nsfw == 0)
+	    	if (data.nsfw == 0) 
 	    	{
-	    		$('#loginModal').modal({backdrop: 'static', keyboard: false});
+	    		$('#loginModal').modal({backdrop: 'static', keyboard: false});	    
 	    		setTimeout(function(){
 					$('#login').focus();
 					$("#login:text:visible:first").focus();
-				}, 750);
-	    	} else
+				}, 750);		
+	    	} else 
 	    	{
 	    		updtChat();
-//	    		setInterval(updtChat, 1000);
 	    	}
 	    });
 });
@@ -94,7 +93,6 @@ $(document).ready(function()
 		    	{
 		    		$('#loginModal').modal('toggle');
 		    		updtChat();
-//		    		setInterval(updtChat, 1000);
 		    	}else if (data.nsfw == "LOG")
 		    	{
 		    		$('#login').val('');
@@ -136,7 +134,6 @@ $(document).ready(function(){
 			    	{
 			    		$('#regModal').modal('toggle');
 			    		updtChat();
-//			    		setInterval(updtChat, 1000);
 			    	}else if (data.nsfw == "LOG")
 			    	{
 			     		$('#regLog').val('');
@@ -174,29 +171,29 @@ function sendChat()
 	}
 }
 
-//fetches new msgs from server
+//fetches new msgs from server, then requests it again
 function updtChat()
 {
-	$.getJSON('/_updtChat',
+	$.getJSON('/_updtChat', 
 	{
 		async:true,
-	}, function(data)
+	}, function(data) 
     {
     	if (data.nsfw != "KOK")
     	{
     		var chatArea = document.getElementById('chat-area');
     		console.log($('#chat-area').height());
      		if (chatArea.scrollHeight <= (chatArea.scrollTop + $('#chat-area').height()) + 14)
-     		{
-     		    $('#chat-area').val($('#chat-area').val() + data.nsfw);
+     		{     
+     		    $('#chat-area').val($('#chat-area').val() + data.nsfw);     						     		
 				chatArea.scrollTop = chatArea.scrollHeight;
      		} else
      		{
-     			$('#chat-area').val($('#chat-area').val() + data.nsfw);
+     			$('#chat-area').val($('#chat-area').val() + data.nsfw); 
      		}
      		updtChat();
      		return false;
-    	} else
+    	} else 
     	{
     		updtChat();
     		return false;
@@ -205,7 +202,8 @@ function updtChat()
 }
 
 //Open chat. Duh.
-function openChat()
+function openChat();
+
 {
 	$(':focus').blur();
 	$('#chatModal').modal({backdrop: 'static'});
@@ -222,7 +220,7 @@ function openChat()
 //logout and refreshing page. Ubelievable
 function logout()
 {
-	$.getJSON('/_logout',
+	$.getJSON('/_logout', 
 		{}, function(data){});
 	$('#logoutBtn').prop('disabled', true);
 	window.location.reload();
