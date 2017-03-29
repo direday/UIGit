@@ -1,5 +1,6 @@
-import BackEnd
 from flask import Flask, session, request, render_template, jsonify
+
+from UIG_chat import BackEnd
 
 app = Flask(__name__)
 

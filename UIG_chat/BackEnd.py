@@ -1,6 +1,8 @@
 import sqlite3
 
-# path = 'D:/Dropbox/Programming/Python/UIGit/static/db/Data.db'
+path = 'D:/Dropbox/Programming/Python/Projects/UIGit/UIG_chat/static/db/Data.db'
+
+
 # path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
 # path = 'E:/Study/UIGit/static/db/Data.db'
 
