@@ -1,10 +1,8 @@
 import sqlite3
+import os
 
-path = 'D:/Dropbox/Programming/Python/Projects/UIGit/UIG_chat/static/db/Data.db'
-
-
-# path = 'C:/Files/Dropbox/Programming/Python/UIGit/static/db/Data.db'
-# path = 'E:/Study/UIGit/static/db/Data.db'
+# Путь к базе данных
+path = os.getcwd() + "\static\db\Data.db"
 
 # Регистрация пользователя
 def add_user(userlogin, userpassword):
